@@ -1,24 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Quartz;
 using Quartz.Impl;
-using StocksReportingLibrary.Application.Report;
 using StocksReportingLibrary.Application.Services.Scheduling;
-using StocksReportingLibrary.Configuration;
 using StocksReportingLibrary.Presentation.Email;
 using StocksReportingLibrary.Presentation.Report;
-using Xunit;
 
 namespace Test.Integration.Api;
+
+[Collection("Sequential")]
 public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _factory;
@@ -167,7 +158,7 @@ public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
         }
 
         await (
-            (await new When(_client).WithListEmailRequest(1, 10).Then()).ShouldBeSuccessful()
+            (await new When(_client).WithListEmailRequest(1, 100).Then()).ShouldBeSuccessful()
         ).AndShouldReturn<ListEmailsEndpoint.Response>(result =>
         {
             result.Should().NotBeNull();
@@ -235,7 +226,7 @@ public class ApiTests : IClassFixture<WebApplicationFactory<Program>>
         ).ShouldBeSuccessful();
 
         await (
-            (await new When(_client).WithListEmailRequest(1, 10).Then()).ShouldBeSuccessful()
+            (await new When(_client).WithListEmailRequest(1, 100).Then()).ShouldBeSuccessful()
         ).AndShouldReturn<ListEmailsEndpoint.Response>(result =>
         {
             result.Emails.Any(e => e.Id == createdEmail2.Email.Id).Should().BeTrue();
