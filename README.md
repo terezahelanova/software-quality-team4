@@ -1,5 +1,7 @@
 # Stocks Reporting System
 
+This only functions to provide place for feedback
+
 ## Description
 This system aims to automate the process of creating weekly stocks reports. The system periodically downloads the latest stocks report from https://ark-funds.com/funds/arkk/. Then it creates a difference between the new report and the latest report and saves the difference.
 
